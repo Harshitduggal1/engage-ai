@@ -1,6 +1,8 @@
 "use client";
 
+import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
+
 import { PricingSection } from "@/components/pricing-section";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
@@ -21,8 +23,11 @@ export default function Home() {
 
   return (
     <>
+   
+   <Header/>
       <HeroSection />
       <PricingSection />
+
     </>
   );
 }

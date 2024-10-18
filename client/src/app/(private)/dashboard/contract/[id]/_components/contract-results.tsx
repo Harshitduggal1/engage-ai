@@ -21,7 +21,7 @@ export default function ContractResults({ contractId }: IContractResultsProps) {
     if (user) {
       fetchAnalysisResults(contractId);
     }
-  }, [user]);
+  }, [contractId, user]);
 
   const fetchAnalysisResults = async (id: string) => {
     try {

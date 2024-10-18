@@ -6,51 +6,29 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ElementType } from "react";
 
-export const Sidebar = () => {
-  return (
-    <aside className="bg-white text-black border-r border-gray-200 w-[280px] min-h-screen hidden lg:block">
-      {SidebarContent()}
-    </aside>
-  );
-};
+export const Sidebar = () => (
+  <aside className="lg:block border-gray-200 hidden bg-white border-r w-[280px] min-h-screen">
+    <SidebarContent />
+  </aside>
+);
 
 const SidebarContent = () => {
   const pathname = usePathname();
-
   const sidebarItems = [
-    {
-      icon: Home,
-      label: "Home",
-      href: "/",
-    },
-    {
-      icon: LayoutDashboard,
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      icon: FileText,
-      label: "Results",
-      href: "/dashboard/results",
-    },
-    {
-      icon: Settings,
-      label: "Settings",
-      href: "/dashboard/settings",
-    },
+    { icon: Home, label: "Home", href: "/" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    { icon: FileText, label: "Results", href: "/dashboard/results" },
+    { icon: Settings, label: "Settings", href: "/dashboard/settings" },
+    { icon: FileText, label: "AI", href: "/dashboard/ai" } // Corrected icon from string to component
   ];
 
   return (
-    <div className="bg-white text-black h-full flex flex-col">
-      <nav className="flex-grow p-6">
-        <ul role="list" className="flex flex-col flex-grow">
-          <li>
-            <ul role="list" className="-mx-2 space-y-1">
-              {sidebarItems.map((item) => (
-                <Navlink key={item.label} path={pathname} link={item} />
-              ))}
-            </ul>
-          </li>
+    <div className="flex flex-col p-6 h-full">
+      <nav className="flex-grow">
+        <ul className="flex flex-col space-y-2">
+          {sidebarItems.map((item) => (
+            <Navlink key={item.label} path={pathname} link={item} />
+          ))}
         </ul>
       </nav>
     </div>
@@ -69,18 +47,21 @@ const Navlink = ({
     target?: string;
   };
 }) => {
+  const isActive = path === link.href;
   return (
-    <li key={link.label}>
+    <li>
       <Link
         href={link.href}
         target={link.target}
         className={cn(
-          "group flex h-9 items-center gap-x-3 rounded-md px-3 text-sm font-semibold leading-5 text-black",
-          path === link.href ? "bg-gray-200" : "hover:bg-gray-200"
+          "flex items-center gap-x-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-300",
+          isActive
+            ? "bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+            : "text-gray-600 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white"
         )}
       >
-        <link.icon className="size-4 shrink-0" />
-        {link.label}
+        <link.icon className="w-5 h-5 shrink-0" />
+        <span>{link.label}</span>
       </Link>
     </li>
   );
@@ -92,9 +73,11 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex bg-gray-100 h-screen">
       <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">{children}</div>
+      <div className="flex-1 bg-white shadow-lg p-6 overflow-auto">
+        {children}
+      </div>
     </div>
   );
 }

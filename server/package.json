@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "main": "app.js",
-  "scripts": {
-    "start": "ts-node dist/app.js",
-    "build": "tsc",
-    "dev": "nodemon --watch 'src/**/*' --exec 'ts-node src/app.ts'"
-  },
+ "scripts": {
+  "start": "node_modules/.bin/ts-node src/app.ts",
+  "build": "node_modules/.bin/tsc",
+  "dev": "node_modules/.bin/nodemon --watch 'src/**/*' --exec 'node_modules/.bin/ts-node' src/app.ts"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -39,8 +39,10 @@
     "@types/node": "^22.7.4",
     "@types/passport": "^1.0.16",
     "@types/passport-google-oauth20": "^2.0.16",
+    "nodemon": "^3.1.7",
     "nodmeon": "^0.0.1-security",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.2"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.3"
   }
 }

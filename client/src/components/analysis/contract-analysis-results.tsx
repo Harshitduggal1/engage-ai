@@ -31,11 +31,11 @@ export default function ContractAnalysisResults({
   const [activeTab, setActiveTab] = useState("summary");
 
   if (!analysisResults) {
-    return <div>No results</div>;
+    return <div className="font-bold text-3xl text-center text-gray-400 animate-pulse">No results available</div>;
   }
 
   const getScore = () => {
-    const score = analysisResults.overallScore; //analysisResults.overallScore ||
+    const score = analysisResults.overallScore;
     if (score > 70)
       return { icon: ArrowUp, color: "text-green-500", text: "Good" };
     if (score < 50)
@@ -48,22 +48,22 @@ export default function ContractAnalysisResults({
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case "high":
-        return "bg-red-100 text-red-800";
+        return "bg-gradient-to-r from-red-500 to-pink-500 text-white";
       case "medium":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-gradient-to-r from-yellow-400 to-orange-500 text-white";
       case "low":
-        return "bg-green-100 text-green-800";
+        return "bg-gradient-to-r from-green-400 to-emerald-500 text-white";
     }
   };
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
       case "high":
-        return "bg-red-100 text-red-800";
+        return "bg-gradient-to-r from-purple-500 to-indigo-500 text-white";
       case "medium":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-gradient-to-r from-blue-400 to-cyan-500 text-white";
       case "low":
-        return "bg-green-100 text-green-800";
+        return "bg-gradient-to-r from-teal-400 to-green-500 text-white";
     }
   };
 
@@ -87,48 +87,48 @@ export default function ContractAnalysisResults({
     };
 
     return (
-      <ul className="space-y-4">
+      <ul className="space-y-8">
         {displayItems.map((item, index) => (
           <motion.li
-            className="border rounded-lg p-4"
+            className="border-gray-200 bg-gradient-to-br from-white via-purple-50 to-indigo-50 shadow-xl hover:shadow-2xl p-8 border rounded-2xl transform transition-all duration-500 hover:scale-105 hover:rotate-1"
             key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.1 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <div className="flex justify-between items-start mb-2">
-              <span className="font-semibold text-lg">
+            <div className="flex justify-between items-start mb-6">
+              <span className="bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 font-extrabold text-2xl text-transparent hover:text-3xl transition-all duration-300">
                 {type === "risks" ? item.risk : item.opportunity}
               </span>
               {(item.severity || item.impact) && (
                 <Badge
-                  className={
+                  className={`${
                     type === "risks"
                       ? getSeverityColor(item.severity!)
                       : getImpactColor(item.impact!)
-                  }
+                  } px-6 py-2 rounded-full font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 hover:-rotate-3`}
                 >
                   {(item.severity || item.impact)?.toUpperCase()}
                 </Badge>
               )}
             </div>
-            <p className="mt-2 text-gray-600">
+            <p className="mt-4 text-gray-700 text-lg hover:text-xl hover:text-gray-900 leading-relaxed transition-colors duration-300">
               {type === "risks" ? item.explanation : item.explanation}
             </p>
           </motion.li>
         ))}
         {!isActive && items.length > 3 && (
           <motion.li
-            className="border rounded-lg p-4 blur-sm"
+            className="border-gray-200 bg-gradient-to-br from-gray-100 via-purple-50 to-indigo-50 shadow-2xl blur-sm p-8 border rounded-2xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: displayItems.length * 0.1 }}
           >
-            <div className="flex justify-between items-start mb-2">
-              <span className="font-semibold text-lg">
+            <div className="flex justify-between items-start mb-6">
+              <span className="bg-clip-text bg-gradient-to-r from-gray-400 via-purple-400 to-indigo-400 font-extrabold text-2xl text-transparent">
                 {type === "risks" ? fakeItems.risk : fakeItems.opportunity}
               </span>
-              <Badge>
+              <Badge className="bg-gradient-to-r from-gray-300 to-gray-400 shadow-lg px-6 py-2 rounded-full font-bold text-gray-600 text-sm">
                 {(fakeItems.severity || fakeItems.impact)?.toUpperCase()}
               </Badge>
             </div>
@@ -144,61 +144,61 @@ export default function ContractAnalysisResults({
     }
 
     return (
-      <div className="relative">
-        <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <Button onClick={onUpgrade} variant={"outline"}>
+      <div className="relative shadow-2xl rounded-2xl overflow-hidden">
+        <div className="z-50 absolute inset-0 flex justify-center items-center bg-gradient-to-br from-white/70 via-purple-100/70 to-indigo-100/70 backdrop-blur-lg">
+          <Button
+            onClick={onUpgrade}
+            className="bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 shadow-xl hover:shadow-2xl px-8 py-4 rounded-full font-extrabold text-lg text-white transform hover:scale-110 transition-all duration-300 hover:rotate-3"
+          >
             Upgrade to Premium
           </Button>
         </div>
-        <div className="opacity-50">{content}</div>
+        <div className="opacity-30 filter grayscale">{content}</div>
       </div>
     );
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Analysis Results</h1>
-        <div className="flex space-x-2">{/* ASK AI BUTTON */}</div>
+    <div className="bg-gradient-to-br from-purple-50 via-indigo-50 to-white mx-auto px-8 py-16 min-h-screen container">
+      <div className="flex justify-between items-center mb-12">
+        <h1 className="bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 font-extrabold text-5xl text-transparent hover:text-6xl transition-all duration-300">Analysis Results</h1>
+        <div className="flex space-x-4">{/* ASK AI BUTTON */}</div>
       </div>
 
-      <Card className="mb-6">
-        <CardHeader>
-          <CardTitle>Overal Contract Score</CardTitle>
-          <CardDescription>
-            Based on risks and opportunities identified
-          </CardDescription>
+      <Card className="bg-gradient-to-br from-white via-purple-50 to-indigo-50 shadow-2xl hover:shadow-3xl mb-12 rounded-3xl transform transition-all duration-500 overflow-hidden hover:scale-105">
+        <CardHeader className="bg-gradient-to-r from-purple-200 via-pink-200 to-indigo-200">
+          <CardTitle className="bg-clip-text bg-gradient-to-r from-purple-700 via-pink-600 to-indigo-700 font-extrabold text-4xl text-transparent">Overall Contract Score</CardTitle>
+          <CardDescription className="text-gray-700 text-lg">Based on risks and opportunities identified</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="w-1/2">
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="text-4xl font-bold">
+        <CardContent className="p-10">
+          <div className="flex flex-wrap justify-between items-center">
+            <div className="mb-8 lg:mb-0 w-full lg:w-1/2">
+              <div className="flex items-center space-x-8 mb-8">
+                <div className="bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 font-extrabold text-7xl text-transparent hover:text-8xl transition-all duration-300">
                   {analysisResults.overallScore ?? 0}
                 </div>
-                <div className={`flex items-center ${scoreTrend.color}`}>
-                  <scoreTrend.icon className="size-6 mr-1" />
-                  <span className="font-semibold">{scoreTrend.text}</span>
+                <div className={`flex items-center ${scoreTrend.color} text-3xl`}>
+                  <scoreTrend.icon className="mr-3 w-10 h-10" />
+                  <span className="font-extrabold">{scoreTrend.text}</span>
                 </div>
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Risk</span>
-                  <span>{100 - analysisResults.overallScore}%</span>
+              <div className="space-y-6">
+                <div className="flex justify-between text-xl">
+                  <span className="font-bold text-gray-700">Risk</span>
+                  <span className="font-extrabold text-red-500">{100 - analysisResults.overallScore}%</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span>Opportunities</span>
-                  <span>{analysisResults.overallScore}%</span>
+                <div className="flex justify-between text-xl">
+                  <span className="font-bold text-gray-700">Opportunities</span>
+                  <span className="font-extrabold text-green-500">{analysisResults.overallScore}%</span>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 mt-4">
-                This score represents the overall risk and opportunitys
-                identified in the contract.
+              <p className="mt-8 text-gray-700 text-xl hover:text-gray-900 leading-relaxed transition-colors duration-300">
+                This score represents the overall risk and opportunities identified in the contract.
               </p>
             </div>
 
-            <div className="w-1/2 h-48 flex justify-center items-center">
-              <div className="w-full h-full max-w-xs">
+            <div className="flex justify-center items-center w-full lg:w-1/2 h-72">
+              <div className="w-full max-w-sm h-full transform hover:scale-110 transition-all duration-300">
                 <OverallScoreChart
                   overallScore={analysisResults.overallScore}
                 />
@@ -208,34 +208,39 @@ export default function ContractAnalysisResults({
         </CardContent>
       </Card>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="summary">Summary</TabsTrigger>
-          <TabsTrigger value="risks">Risks</TabsTrigger>
-          <TabsTrigger value="opportunities">Opportunities</TabsTrigger>
-          <TabsTrigger value="details">Details</TabsTrigger>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-12">
+        <TabsList className="grid grid-cols-4 bg-gradient-to-r from-purple-200 via-pink-200 to-indigo-200 p-2 rounded-2xl w-full">
+          {["summary", "risks", "opportunities", "details"].map((tab) => (
+            <TabsTrigger
+              key={tab}
+              value={tab}
+              className="hover:bg-white data-[state=active]:bg-white data-[state=active]:shadow-lg py-4 rounded-xl font-bold text-xl hover:text-purple-600 data-[state=active]:text-purple-600 capitalize transform transition-all duration-300 hover:scale-105"
+            >
+              {tab}
+            </TabsTrigger>
+          ))}
         </TabsList>
         <TabsContent value="summary">
-          <Card>
-            <CardHeader>
-              <CardTitle>Contract Summary</CardTitle>
+          <Card className="shadow-2xl hover:shadow-3xl mt-8 rounded-3xl transform transition-all duration-500 overflow-hidden hover:scale-105">
+            <CardHeader className="bg-gradient-to-r from-purple-200 via-pink-200 to-indigo-200">
+              <CardTitle className="bg-clip-text bg-gradient-to-r from-purple-700 via-pink-600 to-indigo-700 font-extrabold text-3xl text-transparent">Contract Summary</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-lg leading-relaxed">
+            <CardContent className="p-8">
+              <p className="text-2xl text-gray-700 hover:text-gray-900 leading-relaxed transition-colors duration-300">
                 {analysisResults.summary}
               </p>
             </CardContent>
           </Card>
         </TabsContent>
         <TabsContent value="risks">
-          <Card>
-            <CardHeader>
-              <CardTitle>Risks</CardTitle>
+          <Card className="shadow-2xl hover:shadow-3xl mt-8 rounded-3xl transform transition-all duration-500 overflow-hidden hover:scale-105">
+            <CardHeader className="bg-gradient-to-r from-red-200 via-pink-200 to-orange-200">
+              <CardTitle className="bg-clip-text bg-gradient-to-r from-red-700 via-pink-600 to-orange-700 font-extrabold text-3xl text-transparent">Risks</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-8">
               {renderRisksAndOpportunities(analysisResults.risks, "risks")}
               {!isActive && (
-                <p className="mt-4 text-center text-sm text-gray-500">
+                <p className="mt-8 font-bold text-center text-gray-500 text-xl hover:text-gray-700 transition-colors duration-300">
                   Upgrade to Premium to see all risks
                 </p>
               )}
@@ -243,17 +248,17 @@ export default function ContractAnalysisResults({
           </Card>
         </TabsContent>
         <TabsContent value="opportunities">
-          <Card>
-            <CardHeader>
-              <CardTitle>Opportunities</CardTitle>
+          <Card className="shadow-2xl hover:shadow-3xl mt-8 rounded-3xl transform transition-all duration-500 overflow-hidden hover:scale-105">
+            <CardHeader className="bg-gradient-to-r from-green-200 via-emerald-200 to-teal-200">
+              <CardTitle className="bg-clip-text bg-gradient-to-r from-green-700 via-emerald-600 to-teal-700 font-extrabold text-3xl text-transparent">Opportunities</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-8">
               {renderRisksAndOpportunities(
                 analysisResults.opportunities,
                 "opportunities"
               )}
               {!isActive && (
-                <p className="mt-4 text-center text-sm text-gray-500">
+                <p className="mt-8 font-bold text-center text-gray-500 text-xl hover:text-gray-700 transition-colors duration-300">
                   Upgrade to Premium to see all opportunities
                 </p>
               )}
@@ -262,31 +267,31 @@ export default function ContractAnalysisResults({
         </TabsContent>
         <TabsContent value="details">
           {isActive ? (
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Contract Details</CardTitle>
+            <div className="gap-10 grid md:grid-cols-2">
+              <Card className="shadow-2xl hover:shadow-3xl rounded-3xl transform transition-all duration-500 overflow-hidden hover:scale-105">
+                <CardHeader className="bg-gradient-to-r from-blue-200 via-cyan-200 to-teal-200">
+                  <CardTitle className="bg-clip-text bg-gradient-to-r from-blue-700 via-cyan-600 to-teal-700 font-extrabold text-3xl text-transparent">Contract Details</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
+                <CardContent className="p-8">
+                  <ul className="space-y-6">
                     {analysisResults.keyClauses?.map((keyClause, index) => (
-                      <motion.li key={index} className="flex items-center">
-                        {keyClause}
+                      <motion.li key={index} className="flex items-center text-gray-700 text-xl hover:text-gray-900 transform transition-colors hover:translate-x-2 duration-300">
+                        <span className="mr-4 text-2xl text-purple-600">•</span> {keyClause}
                       </motion.li>
                     ))}
                   </ul>
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Recommdations</CardTitle>
+              <Card className="shadow-2xl hover:shadow-3xl rounded-3xl transform transition-all duration-500 overflow-hidden hover:scale-105">
+                <CardHeader className="bg-gradient-to-r from-yellow-200 via-amber-200 to-orange-200">
+                  <CardTitle className="bg-clip-text bg-gradient-to-r from-yellow-700 via-amber-600 to-orange-700 font-extrabold text-3xl text-transparent">Recommendations</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
+                <CardContent className="p-8">
+                  <ul className="space-y-6">
                     {analysisResults.recommendations?.map(
                       (recommendation, index) => (
-                        <motion.li key={index} className="flex items-center">
-                          {recommendation}
+                        <motion.li key={index} className="flex items-center text-gray-700 text-xl hover:text-gray-900 transform transition-colors hover:translate-x-2 duration-300">
+                          <span className="mr-4 text-2xl text-indigo-600">✓</span> {recommendation}
                         </motion.li>
                       )
                     )}
@@ -295,19 +300,18 @@ export default function ContractAnalysisResults({
               </Card>
             </div>
           ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>Contract Details</CardTitle>
+            <Card className="shadow-2xl hover:shadow-3xl mt-8 rounded-3xl transform transition-all duration-500 overflow-hidden hover:scale-105">
+              <CardHeader className="bg-gradient-to-r from-gray-200 via-slate-200 to-zinc-200">
+                <CardTitle className="bg-clip-text bg-gradient-to-r from-gray-700 via-slate-600 to-zinc-700 font-extrabold text-3xl text-transparent">Contract Details</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p>
-                  Upgrade to Premium to see contract detailed analysis,
-                  including key clauses and recommendations.
+              <CardContent className="p-8">
+                <p className="mb-8 text-2xl text-gray-600 hover:text-gray-800 transition-colors duration-300">
+                  Upgrade to Premium to see contract detailed analysis, including key clauses and recommendations.
                 </p>
                 <Button
                   variant={"outline"}
                   onClick={onUpgrade}
-                  className="mt-4"
+                  className="bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 shadow-xl hover:shadow-2xl mt-6 px-8 py-4 rounded-full font-bold text-lg text-white transform hover:scale-110 transition-all duration-300"
                 >
                   Upgrade to Premium
                 </Button>
@@ -316,27 +320,28 @@ export default function ContractAnalysisResults({
           )}
         </TabsContent>
       </Tabs>
-
-      <Accordion type="single" collapsible className="mb-6">
+      <Accordion type="single" collapsible className="bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-100 shadow-2xl hover:shadow-3xl mb-8 rounded-3xl transform transition-all duration-500 hover:scale-105">
         {renderPremiumAccordition(
           <>
-            <AccordionItem value="contract-details">
-              <AccordionTrigger>Contract Details</AccordionTrigger>
-              <AccordionContent>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="font-semibold mb-2">
+            <AccordionItem value="contract-details" className="border-2 border-purple-300 bg-white/30 backdrop-blur-lg rounded-2xl overflow-hidden">
+              <AccordionTrigger className="bg-clip-text bg-gradient-to-r from-purple-600 hover:from-purple-700 via-pink-500 hover:via-pink-600 to-indigo-600 hover:to-indigo-700 p-6 font-extrabold text-2xl text-transparent transition-all duration-300">
+                Contract Details
+              </AccordionTrigger>
+              <AccordionContent className="bg-white/50 backdrop-blur-xl backdrop-filter p-6">
+                <div className="gap-6 grid md:grid-cols-2">
+                  <div className="space-y-4 transform hover:scale-105 transition-all duration-300">
+                    <h3 className="bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 mb-2 font-bold text-transparent text-xl">
                       Duration and Termination
                     </h3>
-                    <p>{analysisResults.contractDuration}</p>
-                    <strong>Termination Conditions</strong>
-                    <p>{analysisResults.terminationConditions}</p>
+                    <p className="text-gray-700 hover:text-gray-900 transition-colors duration-300">{analysisResults.contractDuration}</p>
+                    <strong className="block mt-4 text-lg text-pink-600">Termination Conditions</strong>
+                    <p className="text-gray-700 hover:text-gray-900 transition-colors duration-300">{analysisResults.terminationConditions}</p>
                   </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Legal Informatiob</h3>
+                  <div className="space-y-4 transform hover:scale-105 transition-all duration-300">
+                    <h3 className="bg-clip-text bg-gradient-to-r from-pink-600 to-indigo-600 mb-2 font-bold text-transparent text-xl">Legal Information</h3>
                     <p>
-                      <strong>Legal Compliance</strong>
-                      {analysisResults.legalCompliance}
+                      <strong className="block text-indigo-600 text-lg">Legal Compliance</strong>
+                      <span className="text-gray-700 hover:text-gray-900 transition-colors duration-300">{analysisResults.legalCompliance}</span>
                     </p>
                   </div>
                 </div>
@@ -346,15 +351,16 @@ export default function ContractAnalysisResults({
         )}
       </Accordion>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Negotiation Points</CardTitle>
+      <Card className="bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 shadow-2xl hover:shadow-3xl rounded-3xl transform transition-all duration-500 hover:scale-105 overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-6">
+          <CardTitle className="font-extrabold text-3xl text-white">Negotiation Points</CardTitle>
         </CardHeader>
-        <CardContent>
-          <ul className="grid md:grid-cols-2 gap-2">
+        <CardContent className="p-6">
+          <ul className="gap-4 grid md:grid-cols-2">
             {analysisResults.negotiationPoints?.map((point, index) => (
-              <li className="flex items-center" key={index}>
-                {point}
+              <li className="flex items-center bg-white/50 shadow-md hover:shadow-lg backdrop-blur-xl backdrop-filter p-4 rounded-xl transform transition-all duration-300 hover:scale-105" key={index}>
+                <span className="mr-3 text-2xl text-indigo-600">•</span>
+                <span className="text-gray-800 hover:text-gray-900 transition-colors duration-300">{point}</span>
               </li>
             ))}
           </ul>
